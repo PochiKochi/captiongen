@@ -1,0 +1,31 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AI Caption Generator</title>
+    <style>
+      body { font-family: sans-serif; max-width: 600px; margin: 30px auto; }
+      textarea, button { width: 100%; padding: 10px; margin: 10px 0; }
+    </style>
+  </head>
+  <body>
+    <h2>AI Instagram Caption Generator</h2>
+    <textarea id="prompt" placeholder="Describe your photo..."></textarea>
+    <button onclick="generate()">Generate Caption</button>
+    <h3>Result:</h3>
+    <div id="result" style="white-space: pre-wrap;"></div>
+
+    <script>
+      async function generate() {
+        const prompt = document.getElementById("prompt").value;
+        const res = await fetch("/api/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt }),
+        });
+        const data = await res.json();
+        document.getElementById("result").innerText = data.caption || data.error;
+      }
+    </script>
+  </body>
+</html>
